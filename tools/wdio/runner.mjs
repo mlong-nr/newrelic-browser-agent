@@ -20,7 +20,25 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
  * properly passed to the worker processes.
  */
 
-const wdioConfig = deepmerge(baseConfig(), specsConfig(), seleniumConfig(), sauceConfig())
+const wdioConfig = deepmerge(baseConfig(), specsConfig(), seleniumConfig(), {
+  user: 'patrickhousley1',
+  key: 'M82svKxvdsVoUvPpHXXq',
+  services: [
+    ['browserstack', {
+      browserstackLocal: true
+    }]
+  ],
+  capabilities: [
+    {
+      browserName: 'safari',
+      'bstack:options': {
+        deviceOrientation: 'portrait',
+        deviceName: 'iPhone XS',
+        osVersion: '15'
+      }
+    }
+  ]
+})
 const configFilePath = path.join(
   path.resolve(__dirname, '../../node_modules/.cache/wdio'),
   `wdio.conf_${crypto.randomBytes(16).toString('hex')}.mjs`

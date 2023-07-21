@@ -20,25 +20,109 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
  * properly passed to the worker processes.
  */
 
-const wdioConfig = deepmerge(baseConfig(), specsConfig(), seleniumConfig(), {
-  user: 'patrickhousley1',
-  key: 'M82svKxvdsVoUvPpHXXq',
-  services: [
-    ['browserstack', {
-      browserstackLocal: true
-    }]
-  ],
-  capabilities: [
-    {
-      browserName: 'safari',
-      'bstack:options': {
-        deviceOrientation: 'portrait',
-        deviceName: 'iPhone XS',
-        osVersion: '15'
+const wdioConfig = deepmerge(baseConfig(), specsConfig(), seleniumConfig(),
+  // Saucelabs
+  // sauceConfig()
+
+  // Browserstack
+  {
+    user: 'patrickhousley_Y2axec',
+    key: 'A7NUjmxSyKAnv7yNs2UM',
+    services: [
+      ['browserstack', {
+        browserstackLocal: true
+      }]
+    ],
+    capabilities: [
+      // {
+      //   'bstack:options': {
+      //     os: 'Windows',
+      //     osVersion: '11',
+      //     browserVersion: '114'
+      //   },
+      //   browserName: 'chrome'
+      // }
+
+      // {
+      //   'bstack:options': {
+      //     os: 'Windows',
+      //     osVersion: '10',
+      //     browserVersion: '11.0'
+      //   },
+      //   browserName: 'IE'
+      // }
+
+      {
+        'bstack:options': {
+          os: 'OS X',
+          osVersion: 'Monterey',
+          browserVersion: '15'
+        },
+        browserName: 'safari',
+        browserVersion: 15
       }
-    }
-  ]
-})
+
+      // {
+      //   'bstack:options': {
+      //     osVersion: '15',
+      //     deviceName: 'iPhone 13',
+      //     appiumVersion: '2.0.0'
+      //   },
+      //   platformName: 'ios',
+      //   browserName: 'safari',
+      //   browserVersion: '15'
+      // }
+    ]
+  }
+
+  // LambdaTest
+  // {
+  //   user: 'phousley@newrelic.com',
+  //   key: 'W4HukN0J3j95PHC9DBqRv7QSc7YM8vuL5WGSJNo63cEzWzKzrb',
+  //   services: [
+  //     // ['lambdatest', {
+  //     //   tunnel: true,
+  //     //   allowHosts: 'bam-test-1.nr-local.net'
+  //     // }]
+  //   ],
+  //   capabilities: [{
+  //     // platformName: 'Windows 11',
+  //     // browserName: 'chrome',
+  //     // browserVersion: '114',
+
+  //     // browserName: 'safari',
+  //     // version: '15',
+
+  //     browserName: 'internet explorer',
+  //     browserVersion: '11.0',
+
+  //     // platformName: 'ios',
+  //     // deviceName: 'iPhone 13',
+  //     // platformVersion: '15',
+  //     // isRealMobile: true,
+
+  //     'LT:Options': {
+  //       w3c: true,
+  //       selenium_version: '4.9.0',
+  //       tunnel: true,
+  //       tunnelName: 'C3F9F61K3X'
+  //     }
+  //   }],
+  //   path: '/wd/hub',
+  //   hostname: 'hub.lambdatest.com',
+  //   // hostname: 'mobile-hub.lambdatest.com', // For LT real mobile device testing
+  //   port: 80
+  // }
+)
+
+// SauceLabs Real Devices
+// wdioConfig.capabilities[0]['appium:deviceName'] = undefined
+// wdioConfig.capabilities[0]['appium:platformVersion'] = '15'
+// wdioConfig.capabilities[0]['appium:deviceName'] = 'iPhone Instant Simulator'
+// wdioConfig.capabilities[0]['appium:platformVersion'] = 'previous_major'
+
+// console.log(JSON.stringify(wdioConfig))
+// process.exit(1)
 const configFilePath = path.join(
   path.resolve(__dirname, '../../node_modules/.cache/wdio'),
   `wdio.conf_${crypto.randomBytes(16).toString('hex')}.mjs`

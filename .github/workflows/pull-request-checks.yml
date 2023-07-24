@@ -10,7 +10,7 @@ jobs:
     uses: ./.github/workflows/wdio-single-browser.yml
     with:
       browser-target: chrome@114
-      build-number: PR${{ fromJSON(needs.find-pull-request.outputs.pull-request-target).pr_number}}-job-${{ github.run_number }}-attempt-${{ github.run_attempt }}
+      build-number: LambdaTest-CICD
     secrets: inherit
 
   # Jobs for pull_request events

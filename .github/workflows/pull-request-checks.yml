@@ -9,7 +9,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     uses: ./.github/workflows/wdio-single-browser.yml
     with:
-      browser-target: chrome@114
+      browser-target: chrome@*
       build-number: LambdaTest-CICD
     secrets: inherit
 

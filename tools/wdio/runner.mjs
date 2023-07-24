@@ -105,11 +105,67 @@ const wdioConfig = deepmerge(baseConfig(), specsConfig(), seleniumConfig(),
 
       'LT:Options': {
         w3c: true,
-        selenium_version: '4.9.0',
-        network: true,
-        'network.har': true,
-        console: true,
-        terminal: true
+        selenium_version: '4.9.0'
+      }
+    }, {
+      platformName: 'Windows 11',
+      browserName: 'chrome',
+      browserVersion: '111',
+
+      // browserName: 'safari',
+      // version: '15',
+
+      // browserName: 'internet explorer',
+      // browserVersion: '11.0',
+
+      // platformName: 'ios',
+      // deviceName: 'iPhone 13',
+      // platformVersion: '15',
+      // isRealMobile: true,
+
+      'LT:Options': {
+        w3c: true,
+        selenium_version: '4.9.0'
+      }
+    }, {
+      platformName: 'Windows 11',
+      browserName: 'chrome',
+      browserVersion: '109',
+
+      // browserName: 'safari',
+      // version: '15',
+
+      // browserName: 'internet explorer',
+      // browserVersion: '11.0',
+
+      // platformName: 'ios',
+      // deviceName: 'iPhone 13',
+      // platformVersion: '15',
+      // isRealMobile: true,
+
+      'LT:Options': {
+        w3c: true,
+        selenium_version: '4.9.0'
+      }
+    }, {
+      platformName: 'Windows 11',
+      browserName: 'chrome',
+      browserVersion: '106',
+
+      // browserName: 'safari',
+      // version: '15',
+
+      // browserName: 'internet explorer',
+      // browserVersion: '11.0',
+
+      // platformName: 'ios',
+      // deviceName: 'iPhone 13',
+      // platformVersion: '15',
+      // isRealMobile: true,
+
+      'LT:Options': {
+        w3c: true,
+        selenium_version: '4.9.0'
       }
     }],
     path: '/wd/hub',

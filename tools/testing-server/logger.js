@@ -15,6 +15,13 @@ class TestServerLogger {
   }
 
   logNetworkRequest (request, reply) {
+    if (reply.statusCode >= 400 && request.server.testServerId === 'assetServer') {
+      this.#parentLogger.error(`${request.server.testServerId} -> ${request.method} ${request.url} ${reply.statusCode}`)
+      this.#parentLogger.error(request.body)
+      this.#parentLogger.error(reply.body)
+      return
+    }
+
     if (this.#config.logRequests) {
       this.#parentLogger.info(`${request.server.testServerId} -> ${request.method} ${request.url} ${reply.statusCode}`)
     }

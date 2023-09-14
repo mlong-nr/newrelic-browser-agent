@@ -1,0 +1,69 @@
+# This workflow runs eslint on the repository.
+
+name: 'Integration Tests'
+
+on:
+  workflow_call:
+    inputs:
+      suite:
+        description: 'Which test suite to run.'
+        required: true
+        type: string
+      browser:
+        description: 'Which browser to run the test suite on.'
+        required: true
+        type: string
+      coverage:
+        description: 'Whether to generate and upload coverage maps or not.'
+        required: false
+        default: false
+        type: boolean
+      ref:
+        description: 'Github branch ref to checkout and run tests on.'
+        required: false
+        type: string
+      build-number:
+        description: 'Used to associate test results reported to New Relic to the BUILD_NUMBER identifier'
+        required: true
+        type: string
+    secrets:
+      JIL_SAUCE_LABS_USERNAME:
+        required: true
+      JIL_SAUCE_LABS_ACCESS_KEY:
+        required: true
+      JIL_NODE_NEW_RELIC_LICENSE_KEY:
+        required: true
+
+jobs:
+  jil_unit:
+    if: ${{ inputs.suite == 'jil_unit' }}
+    uses: ./.github/workflows/jil-single-browser.yml
+    with:
+      ref: ${{ inputs.ref || github.ref }}
+      browser-target: ${{ inputs.browser }}
+      build-number: ${{ inputs.build-number }}
+      collection: unit
+      additional-flags: ${{ startsWith( inputs.browser, 'ie@' ) && '-P' || '' }}
+    secrets: inherit
+
+  jil_functional:
+    if: ${{ inputs.suite == 'jil_functional' }}
+    uses: ./.github/workflows/jil-single-browser.yml
+    with:
+      ref: ${{ inputs.ref || github.ref }}
+      browser-target: ${{ inputs.browser }}
+      build-number: ${{ inputs.build-number }}
+      collection: functional
+      additional-flags: ${{ startsWith( inputs.browser, 'ie@' ) && '-P' || '' }}
+    secrets: inherit
+
+  wdio:
+    if: ${{ inputs.suite == 'wdio' }}
+    uses: ./.github/workflows/wdio-single-browser.yml
+    with:
+      ref: ${{ inputs.ref || github.ref }}
+      browser-target: ${{ inputs.browser }}
+      build-number: ${{ inputs.build-number }}
+      coverage: ${{ inputs.coverage }}
+      additional-flags: ${{ startsWith( inputs.browser, 'ie@' ) && '-P' || '' }}
+    secrets: inherit

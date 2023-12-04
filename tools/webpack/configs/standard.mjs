@@ -16,25 +16,25 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
  */
 export default (env) => {
   const entryGroups = [
-    {
-      asyncChunkName: 'nr-rum',
-      entry: {
-        'nr-loader-rum': path.join(env.paths.src, 'cdn/lite.js'),
-        'nr-loader-rum.min': path.join(env.paths.src, 'cdn/lite.js')
-      },
-      plugins: [
-        new webpack.IgnorePlugin({
-          checkResource: (resource, context) => {
-            if (context.match(/features\/utils/) && resource.indexOf('aggregate') > -1) {
-              // Only allow page_view_event, page_view_timing, and metrics features
-              return !resource.match(/(page_view_event|page_view_timing|metrics)\/aggregate/)
-            }
-
-            return false
-          }
-        })
-      ]
-    },
+    // {
+    //   asyncChunkName: 'nr-rum',
+    //   entry: {
+    //     'nr-loader-rum': path.join(env.paths.src, 'cdn/lite.js'),
+    //     'nr-loader-rum.min': path.join(env.paths.src, 'cdn/lite.js')
+    //   },
+    //   plugins: [
+    //     new webpack.IgnorePlugin({
+    //       checkResource: (resource, context) => {
+    //         if (context.match(/features\/utils/) && resource.indexOf('aggregate') > -1) {
+    //           // Only allow page_view_event, page_view_timing, and metrics features
+    //           return !resource.match(/(page_view_event|page_view_timing|metrics)\/aggregate/)
+    //         }
+    //
+    //         return false
+    //       }
+    //     })
+    //   ]
+    // },
     {
       asyncChunkName: 'nr-full',
       entry: {
@@ -54,33 +54,33 @@ export default (env) => {
         })
       ]
     },
-    {
-      asyncChunkName: 'nr-spa',
-      entry: {
-        'nr-loader-spa': path.join(env.paths.src, 'cdn/spa.js'),
-        'nr-loader-spa.min': path.join(env.paths.src, 'cdn/spa.js')
-      },
-      plugins: [
-        new webpack.IgnorePlugin({
-          checkResource: (resource, context) => {
-            // Spa allows all feature aggs
-            return false
-          }
-        })
-      ]
-    }
+  //   {
+  //     asyncChunkName: 'nr-spa',
+  //     entry: {
+  //       'nr-loader-spa': path.join(env.paths.src, 'cdn/spa.js'),
+  //       'nr-loader-spa.min': path.join(env.paths.src, 'cdn/spa.js')
+  //     },
+  //     plugins: [
+  //       new webpack.IgnorePlugin({
+  //         checkResource: (resource, context) => {
+  //           // Spa allows all feature aggs
+  //           return false
+  //         }
+  //       })
+  //     ]
+  //   }
   ]
 
-  if (env.SUBVERSION !== 'PROD') {
-    entryGroups.push({
-      asyncChunkName: 'nr-experimental',
-      entry: {
-        'nr-loader-experimental': path.join(env.paths.src, 'cdn/experimental.js'),
-        'nr-loader-experimental.min': path.join(env.paths.src, 'cdn/experimental.js')
-      },
-      plugins: []
-    })
-  }
+  // if (env.SUBVERSION !== 'PROD') {
+  //   entryGroups.push({
+  //     asyncChunkName: 'nr-experimental',
+  //     entry: {
+  //       'nr-loader-experimental': path.join(env.paths.src, 'cdn/experimental.js'),
+  //       'nr-loader-experimental.min': path.join(env.paths.src, 'cdn/experimental.js')
+  //     },
+  //     plugins: []
+  //   })
+  // }
 
   return entryGroups.map(entryGroup => {
     return merge(commonConfig(env, entryGroup.asyncChunkName), {

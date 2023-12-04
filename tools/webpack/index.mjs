@@ -61,6 +61,6 @@ export default async (env) => {
 
   return [
     ...standardConfig(env),
-    ...polyfillsConfig(env)
+    // ...polyfillsConfig(env)
   ]
 }

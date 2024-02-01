@@ -113,7 +113,6 @@ export class Aggregate extends AggregateBase {
       const ref = this.interactionInProgress
       this.interactionsToHarvest.push(this.interactionInProgress)
       this.interactionInProgress = null
-      this.domObserver.disconnect() // can stop observing whenever our interaction logic completes a cycle
 
       // Report metric on the ixn duration
       handle(SUPPORTABILITY_METRIC_CHANNEL, [
@@ -123,7 +122,6 @@ export class Aggregate extends AggregateBase {
     })
     this.interactionInProgress.on('cancelled', () => {
       this.interactionInProgress = null
-      this.domObserver.disconnect()
     })
   }
 

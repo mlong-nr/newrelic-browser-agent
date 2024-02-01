@@ -34,18 +34,25 @@ export class Instrument extends InstrumentBase {
     windowAddEventListener('popstate', trackURLChangeEvent, true, this.removeOnAbort?.signal)
 
     let oncePerFrame = false // attempt to reduce dom noice since the observer runs very frequently with below options
+    window.nrObserverTimeSpent = 0
     const domObserver = new originals.MO((domChanges, observer) => {
-      if (oncePerFrame) return
-      oncePerFrame = true
-      requestAnimationFrame(() => { // waiting for next frame to time when any visuals are supposedly updated
-        handle('newDom', [now()], undefined, this.featureName, this.ee)
-        oncePerFrame = false
-      })
+      const startTime = performance.now()
+      ;(function () {
+        if (oncePerFrame) return
+        oncePerFrame = true
+        requestAnimationFrame(() => { // waiting for next frame to time when any visuals are supposedly updated
+          handle('newDom', [now()], undefined, this.featureName, this.ee)
+          oncePerFrame = false
+        })
+      }.bind(this))()
+      window.nrObserverTimeSpent += performance.now() - startTime
     })
+    const startTime = performance.now()
+    domObserver.observe(document.body, { attributes: true, childList: true, subtree: true, characterData: true })
+    window.nrObserverTimeSpent += performance.now() - startTime
 
     const processUserInteraction = debounce((event) => {
       handle('newUIEvent', [event], undefined, this.featureName, this.ee)
-      domObserver.observe(document.body, { attributes: true, childList: true, subtree: true, characterData: true })
     }, UI_WAIT_INTERVAL, { leading: true })
 
     eventsEE.on('fn-start', ([evt]) => { // set up a new user ixn before the callback for the triggering event executes

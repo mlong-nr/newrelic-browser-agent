@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.254.0](https://github.com/newrelic/newrelic-browser-agent/compare/v1.253.0...v1.254.0) (2024-03-15)
+
+
+### Features
+
+* Calculate New Relic time in the agent ([#911](https://github.com/newrelic/newrelic-browser-agent/issues/911)) ([91b1f96](https://github.com/newrelic/newrelic-browser-agent/commit/91b1f96efafe19f7b1b3fd4f39b9af1136b0a3a8))
+
 ## [1.253.0](https://github.com/newrelic/newrelic-browser-agent/compare/v1.252.1...v1.253.0) (2024-03-13)
 
 

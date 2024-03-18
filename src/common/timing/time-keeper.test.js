@@ -8,7 +8,6 @@ jest.unmock('./time-keeper')
 
 let localTime
 let serverTime
-let mockAgent
 let runtimeConfig
 let timeKeeper
 beforeEach(() => {
@@ -19,16 +18,13 @@ beforeEach(() => {
     now: localTime
   })
 
-  mockAgent = {
-    agentIdentifier: faker.string.uuid()
-  }
   runtimeConfig = {
     offset: localTime
   }
 
   jest.spyOn(configModule, 'getRuntime').mockImplementation(() => runtimeConfig)
 
-  timeKeeper = new TimeKeeper(mockAgent)
+  timeKeeper = new TimeKeeper(Date.now())
 })
 
 describe('processRumRequest', () => {
@@ -47,7 +43,7 @@ describe('processRumRequest', () => {
 
     timeKeeper.processRumRequest(mockRumRequest, rumRequestUrl)
 
-    expect(timeKeeper.correctedPageOriginTime).toEqual(1706213060475)
+    expect(timeKeeper.correctedOriginTime).toEqual(1706213060475)
   })
 
   it('should calculate a newer corrected page origin', () => {
@@ -67,7 +63,7 @@ describe('processRumRequest', () => {
 
     timeKeeper.processRumRequest(mockRumRequest, rumRequestUrl)
 
-    expect(timeKeeper.correctedPageOriginTime).toEqual(1706213055475)
+    expect(timeKeeper.correctedOriginTime).toEqual(1706213055475)
   })
 
   it.each([undefined, null, 0])('should fallback to unprotected time values when responseStart is %s', (responseStart) => {
@@ -86,7 +82,7 @@ describe('processRumRequest', () => {
 
     timeKeeper.processRumRequest(mockRumRequest, rumRequestUrl)
 
-    expect(timeKeeper.correctedPageOriginTime).toEqual(1706213060475)
+    expect(timeKeeper.correctedOriginTime).toEqual(1706213060475)
   })
 
   it.each([null, undefined])('should throw an error when rumRequest is %s', (rumRequest) => {
@@ -138,7 +134,7 @@ describe('processRumRequest', () => {
     const rumRequestUrl = faker.internet.url()
     globalScope.performance.getEntriesByName = jest.fn(() => { throw new Error('test error') })
 
-    const timeKeeper = new TimeKeeper(mockAgent)
+    const timeKeeper = new TimeKeeper(Date.now())
 
     expect(() => timeKeeper.processRumRequest(mockRumRequest, rumRequestUrl))
       .toThrowError()

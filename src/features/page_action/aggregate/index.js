@@ -86,7 +86,7 @@ export class Aggregate extends AggregateBase {
     }
 
     var defaults = {
-      timestamp: t + getRuntime(this.agentIdentifier).offset,
+      timestamp: this.timeKeeper.convertRelativeTimestamp(t),
       timeSinceLoad: t / 1000,
       browserWidth: width,
       browserHeight: height,
